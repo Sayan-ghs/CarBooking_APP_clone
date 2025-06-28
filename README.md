@@ -196,6 +196,81 @@ HTTP/1.1 201 Created
 }
 ```
 
+## Get User Profile
+
+**Endpoint:** `GET /users/profile`
+
+### Description
+Retrieves the authenticated user's profile information. Requires a valid JWT.
+
+### Authentication
+Provide the JWT token in the `Authorization` header as `Bearer <token>` or as an HTTP-only cookie named `token`.
+
+### Responses
+
+#### 200 OK
+Returns the user's profile object.
+```json
+HTTP/1.1 200 OK
+{
+  "_id": "60f8c3d9a3d1b82d9c2e4f7a",
+  "fullname": { "firstname": "John", "lastname": "Doe" },
+  "email": "john.doe@example.com",
+  "socketId": null
+}
+```
+
+#### 401 Unauthorized
+Missing or invalid token.
+```json
+HTTP/1.1 401 Unauthorized
+{
+  "message": "Authentication failed"
+}
+```
+
+**Example Usage**
+```bash
+curl -X GET "http://localhost:3000/users/profile" \
+  -H "Authorization: Bearer eyJhbGci..."
+```
+
+## Logout User
+
+**Endpoint:** `GET /users/logout`
+
+### Description
+Logs out the authenticated user by clearing the token cookie and blacklisting the JWT.
+
+### Authentication
+Requires a valid JWT token in the `Authorization` header or HTTP-only cookie.
+
+### Responses
+
+#### 201 Created
+Logout successful.
+```json
+HTTP/1.1 201 Created
+{
+  "message": "Logged out"
+}
+```
+
+#### 401 Unauthorized
+Missing or invalid token.
+```json
+HTTP/1.1 401 Unauthorized
+{
+  "message": "Authentication failed"
+}
+```
+
+**Example Usage**
+```bash
+curl -X GET "http://localhost:3000/users/logout" \
+  -H "Authorization: Bearer eyJhbGci..."
+```
+
 ---
 
 *Generated on June 27, 2025*

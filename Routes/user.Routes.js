@@ -22,6 +22,8 @@ userControler.loginUser
 
 router.get('/profile',authmiddlewire.authUser,userControler.getUserprofile)
 
+router.get('/logout',authmiddlewire.authUser,userControler.logoutUser)
+
 
 
 module.exports=router
