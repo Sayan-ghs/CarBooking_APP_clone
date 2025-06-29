@@ -1,4 +1,6 @@
 const mongoose =  require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken")
 
 const captainSchema = new mongoose.Schema({
         fullname : {
@@ -35,7 +37,7 @@ const captainSchema = new mongoose.Schema({
         status : {
                 type : String,
                 enum : ['active','inactive'],
-                default : inactive
+                default : 'inactive'
         },
 
         vehicle : {
@@ -50,7 +52,7 @@ const captainSchema = new mongoose.Schema({
                         minlength : [3,'plate must be at least 3 characters long']
                 },
                 capacity : {
-                        type : number ,
+                        type : Number ,
                         required : true ,
                         minlegth : [1,'capacity must be at least 1']
                 },
@@ -63,10 +65,10 @@ const captainSchema = new mongoose.Schema({
 
         location : {
                 lat:{
-                        type : number
+                        type : Number
                 },
                 long : {
-                        type : number
+                        type : Number
                 }
         }
 
@@ -86,3 +88,4 @@ captainSchema.statics.hashPassword = async function(password){
 }
 
 const captainModel = mongoose.model('captain',captainSchema)
+module.exports = captainModel 

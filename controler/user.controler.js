@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator")
 const userModel = require("../models/user.model")
 const BlacklistToken = require('../models/blacklistToken.model')
+const userService = require('../services/user.service')
 
 
 module.exports.registerUser = async(req,res,next)=>{
@@ -14,6 +15,14 @@ module.exports.registerUser = async(req,res,next)=>{
         console.log(req.body)
 
         const {fullname, email , password }=req.body
+
+        const isUserAllreadyExist = userModel.findOne({email})
+
+        if(isUserAllreadyExist){
+                return res.status(400).json({
+                        message : 'user allready exist'
+                })
+        }
 
         const hashedpassword = await userModel.hashPassword(password)
 
