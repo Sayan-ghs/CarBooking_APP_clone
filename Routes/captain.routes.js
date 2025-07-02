@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {body} = require('express-validator')
 const captainControler = require('../controler/captain.controler')
+const authmiddlewire = require('../middlewire/auth.middlewire')
 
 router.post('/register',[
         body('email').isEmail().withMessage('Invalid email'),
@@ -15,7 +16,18 @@ router.post('/register',[
 captainControler.registerCaptain
 )
 
+router.post('/login',[
+        body('email').isEmail().withMessage('Invalid Email'),
+        body('password').isLength({min : 6}).withMessage('password is not valid')
+],
+captainControler.loginCaptain
+)
+
+router.get('/profile',authmiddlewire.authCaptain,captainControler.getCaptainProfile)
+
+router.get('/logout',authmiddlewire.authCaptain,captainControler.logoutCaptain)
 
 
 
-module.exports = router 
+
+module.exports = router
